@@ -805,9 +805,9 @@ function diagnose {
     fi
 
     echo -e "====== archiveloop log ======"
-    if [ -e /mutable/archiveloop.log ]
+    if [ -e /var/log/archiveloop.log ]
     then
-      cat /mutable/archiveloop.log
+      cat /var/log/archiveloop.log
     else
       echo "no archiveloop log found"
     fi

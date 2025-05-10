@@ -9,7 +9,7 @@ fi
 # Unload the module that was loaded by cmdline.txt
 modprobe -r g_ether
 
-export LOG_FILE=/mutable/archiveloop.log
+export LOG_FILE=/var/log/archiveloop.log
 
 function log () {
   echo "$( date ):" "$@" >> "$LOG_FILE"

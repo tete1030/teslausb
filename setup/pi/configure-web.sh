@@ -25,7 +25,7 @@ umount /var/www/html/fs/Boombox &> /dev/null || true
 find /var/www/html -mount \( -type f -o -type l \) -print0 | xargs -0 rm
 cp -r "$SOURCE_DIR/teslausb-www/html" /var/www/
 ln -sf /teslausb/teslausb-headless-setup.log /var/www/html/
-ln -sf /mutable/archiveloop.log /var/www/html/
+ln -sf /var/log/archiveloop.log /var/www/html/
 ln -sf /tmp/diagnostics.txt /var/www/html/
 mkdir -p /var/www/html/TeslaCam
 cp -rf "$SOURCE_DIR/teslausb-www/teslausb.nginx" /etc/nginx/sites-available
