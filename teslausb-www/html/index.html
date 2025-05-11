@@ -740,6 +740,8 @@ video {
 
 .pistatus {
   min-height: 127px;
+  min-width: 400px;
+  overflow-x: auto;
   position: relative;
   padding: 5px;
   margin-bottom: 10px;
@@ -817,8 +819,8 @@ video {
   </div>
 
   <div class="tab content4">
-    <div style="width:calc(100% - 4px);margin: 2px;">
-      <div style="display: flex; flex-direction: row;">
+    <div style="width:calc(100% - 4px); height: calc(100% - 4px); margin: 2px; ">
+      <div style="display: flex; flex-direction: row; max-height: 50%">
         <div class="pistatus">
           <div class="status_uptime"></div>
           <div class="status_temp"></div>
@@ -871,7 +873,7 @@ video {
           
         </div>
         <!-- SMS Table -->
-        <div id="sms-table-container" style="max-height: 220px; overflow-y: auto; margin-top: 10px; display: none;">
+        <div id="sms-table-container" style="overflow-y: auto; display: none;">
           <table id="sms-table" style="width:100%; border-collapse: collapse; table-layout: fixed;">
             <colgroup>
               <col style="width:8%;">
