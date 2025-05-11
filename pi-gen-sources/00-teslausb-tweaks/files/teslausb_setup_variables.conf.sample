@@ -374,3 +374,9 @@ export REPO=tete1030
 
 # Uncomment and change if you want a different branch than main-dev
 # export BRANCH=main-dev
+
+DISK_VENDOR_ID="0781"
+DISK_PRODUCT_ID="55ae"
+
+MODEM_VENDOR_ID="2c7c"
+MODEM_PRODUCT_ID="6005"

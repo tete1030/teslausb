@@ -225,6 +225,7 @@ function get_common_scripts () {
   copy_script run/enable_gadget.sh /root/bin
   copy_script run/disable_gadget.sh /root/bin
   copy_script run/wait_and_reload_gadget.sh /root/bin
+  copy_script run/modem_watchdog.sh /root/bin
   ln -sf /root/bin/mountimage /sbin/mount.teslausb
 }
 
@@ -971,10 +972,16 @@ then
   /tmp/configure-ap.sh
 fi
 
-if [ -n "${DISK_VENDOR_ID:+x}" ] && [ -n "${DISK_MODEL_ID:+x}" ]
+if [ -n "${DISK_VENDOR_ID:+x}" ] && [ -n "${DISK_PRODUCT_ID:+x}" ]
 then
   copy_script setup/pi/configure-disk-monitor.sh /tmp
   /tmp/configure-disk-monitor.sh
+fi
+
+if [ -n "${MODEM_VENDOR_ID:+x}" ] && [ -n "${MODEM_PRODUCT_ID:+x}" ]
+then
+  copy_script setup/pi/configure-modem-manager.sh /tmp
+  /tmp/configure-modem-manager.sh
 fi
 
 copy_script setup/pi/configure-gadget-log.sh /tmp
