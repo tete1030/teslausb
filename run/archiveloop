@@ -12,7 +12,7 @@ modprobe -r g_ether
 export LOG_FILE=/var/log/archiveloop.log
 
 function log () {
-  echo "$( date ):" "$@" >> "$LOG_FILE"
+  echo "$( date ):" "$@" | tee -a "$LOG_FILE"
   if [[ "$(stat --format="%s" "$LOG_FILE")" -gt 1000000 ]]
   then
     local log_file2="${LOG_FILE}.2"
@@ -727,7 +727,7 @@ function set_time () {
   local -r clocktime_start=$(date +%s.%N)
   for _ in {1..5}
   do
-    if sntp -S time.google.com
+    if sntp -S ntp.aliyun.com
     then
       local -r uptime_end=$(awk '{print $1}' /proc/uptime)
       local -r clocktime_end=$(date +%s.%N)

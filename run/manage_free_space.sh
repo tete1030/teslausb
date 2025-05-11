@@ -53,7 +53,7 @@ function manage_free_space {
       exit 1
     fi
 
-    oldest=$(find /backingfiles/snapshots -maxdepth 1 -name 'snap-*' | sort | head -1)
+    oldest=$(find /backingfiles/snapshots -maxdepth 1 -name 'snap-*' | sort 2>/dev/null | head -1)
     log "low space, deleting $oldest"
     /root/bin/release_snapshot.sh "$oldest"
     rm -rf "$oldest"

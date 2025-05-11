@@ -63,12 +63,22 @@ function make_links_for_snapshot {
   for f in "$curmnt/TeslaCam/RecentClips/"*
   do
     #log "linking $f"
+    # Skip zero-size files
+    if [ ! -s "$f" ]; then
+      log "skipping zero-size file: $f"
+      continue
+    fi
     linksnapshotfiletorecents "$f" "$curmnt" "$finalmnt"
   done
   # also link in any files that were moved to SavedClips
   for f in "$curmnt/TeslaCam/SavedClips"/*/*
   do
     #log "linking $f"
+    # Skip zero-size files
+    if [ ! -s "$f" ]; then
+      log "skipping zero-size file: $f"
+      continue
+    fi
     linksnapshotfiletorecents "$f" "$curmnt" "$finalmnt"
     # also link it into a SavedClips folder
     local eventfolder=${f%/*}
@@ -83,6 +93,11 @@ function make_links_for_snapshot {
   for f in "$curmnt/TeslaCam/SentryClips/"*/*
   do
     #log "linking $f"
+    # Skip zero-size files
+    if [ ! -s "$f" ]; then
+      log "skipping zero-size file: $f"
+      continue
+    fi
     linksnapshotfiletorecents "$f" "$curmnt" "$finalmnt"
     local eventfolder=${f%/*}
     local eventtime=${eventfolder##/*/}
@@ -95,6 +110,11 @@ function make_links_for_snapshot {
   # and finally the TrackMode files
   for f in "$curmnt/TeslaTrackMode/"*
   do
+    # Skip zero-size files
+    if [ ! -s "$f" ]; then
+      log "skipping zero-size file: $f"
+      continue
+    fi
     if [ ! -d "$track" ]
     then
       mkdir -p "$track"
@@ -148,9 +168,13 @@ function snapshot {
 
   if [ -e "$newsnapname" ]
   then
+    log "take_snapshot: unmounting and removing old snap"
     umount "$newsnapmnt" || true
     rm -rf "$newsnapname"
   fi
+
+
+  log "take_snapshot: creating snapshot image"
 
   # make a copy-on-write snapshot of the current image
   cp --reflink=always /backingfiles/cam_disk.bin "$newsnapname"
@@ -162,14 +186,17 @@ function snapshot {
   # /dev/loop0p1
 
   # Use -p repair arg. It works with vfat and exfat.
+  log "take_snapshot: create loop devices for image"
   LOOP=$(losetup_find_show -P "$newsnapname")
   PARTLOOP=${LOOP}p1
 
   if [ "$1" = "fsck" ]
   then
+    log "take_snapshot: fsck"
     fsck "$PARTLOOP" -- -p || true
   fi
 
+  log "take_snapshot: setup loop $LOOP"
   # don't need to mount, because autofs will
   losetup -d "$LOOP"
 
@@ -183,8 +210,23 @@ function snapshot {
   # check whether this snapshot is actually different from the previous one
   find "$newsnapmnt" -type f -printf '%s %P\n' > "${newsnapname}.toc_"
   log "comparing new snapshot with $oldname"
-  if [[ ! -e "${oldname}.toc" ]] || diff "${oldname}.toc" "${newsnapname}.toc_" | grep -qe '^>'
+
+  local toc_diff=""
+  toc_diff="$(test -e "${oldname}.toc" && diff "${oldname}.toc" "${newsnapname}.toc_" || true)"
+
+  if [[ ! -e "${oldname}.toc" ]] || printf '%s' "${toc_diff}" | grep -qe '^>'
   then
+    if [[ -n "${toc_diff}" ]]; then
+      log "Changed files:"
+      while IFS= read -r line; do
+        log "  ${line}"
+      done < <(printf '%s' "${toc_diff}" | grep -e '^>')
+    else
+      log "All files:"
+      while IFS= read -r line; do
+        log "  ${line}"
+      done < "${newsnapname}.toc_"
+    fi 
     ln -s "$newsnapmnt" "$newsnapdir/mnt"
     make_links_for_snapshot "$newsnapmnt" "$newsnapdir/mnt"
     mv "${newsnapname}.toc_" "${newsnapname}.toc"
