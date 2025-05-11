@@ -109,7 +109,7 @@ then
   # source the conf file directly to get REPO, BRANCH or download_sources
   # in case they're set
   safesource /root/teslausb_setup_variables.conf
-  REPO=${REPO:-marcone}
+  REPO=${REPO:-tete1030}
   BRANCH=${BRANCH:-main-dev}
   copy_script setup/pi/envsetup.sh "$THISDIR"
 fi
