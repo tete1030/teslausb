@@ -818,56 +818,83 @@ video {
 
   <div class="tab content4">
     <div style="width:calc(100% - 4px);margin: 2px;">
-      <div class="pistatus">
-        <div class="status_uptime"></div>
-        <div class="status_temp"></div>
-        <div class="status_drives"></div>
-        <div class="status_space"></div>
-        <div class="status_snapshots"></div>
-        <div class="status_ether">
-          <span>Ethernet:
-            <span class="status_ether_info">&ZeroWidthSpace;</span>
-          </span>
-        </div>
-        <div class="status_wifi">
-          <span>Wifi:
-            <span class="status_wifi_info">&ZeroWidthSpace;</span>
-          </span>
-          <span class="wifi-icon-span" title="">
-            <svg width="20" height="18" viewBox="0 5 110 95">
-              <g class="wifi-icon" strength="a">
-                <circle class="wifi-none" cx="56" cy="77" r="5" stroke="blue" stroke-width="1" fill="black" />
-                <path class="wifi-low" fill="none" stroke-width="10" stroke="lightgrey"
-                      stroke-linecap="round" d="m 76 63 c -11 -11 -29 -11 -40 0"/>
-                <path class="wifi-medium" fill="none" stroke-width="10" stroke="lightgrey"
-                      stroke-linecap="round" d="m 93 48 c -20 -20 -53 -20 -73 0"/>
-                <path class="wifi-high" fill="none" stroke-width="10" stroke="lightgrey"
-                      stroke-linecap="round" d="m 109 32 c -29 -29 -76 -29 -105 0"/>
-              </g>
-            </svg>
-          </span>
-        </div>
-        <div class="status_modem" style="display: flex; flex-direction: column;">
-          <span style="display: flex;">Modem: 
-            <span class="status_modem_info"></span>
-            <span class="modem_icon_span" style="margin-left: 5px;">
-              <svg width="20" height="18" viewBox="0 0 110 95">
-                <g class="modem_icon" strength="a">
-                  <rect class="cell-bar-1" x="10" y="60" width="10" height="25" rx="3" fill="#bbb"/>
-                  <rect class="cell-bar-2" x="25" y="50" width="10" height="35" rx="3" fill="#bbb"/>
-                  <rect class="cell-bar-3" x="40" y="40" width="10" height="45" rx="3" fill="#bbb"/>
-                  <rect class="cell-bar-4" x="55" y="30" width="10" height="55" rx="3" fill="#bbb"/>
-                  <rect class="cell-bar-5" x="70" y="20" width="10" height="65" rx="3" fill="#bbb"/>
+      <div style="display: flex; flex-direction: row;">
+        <div class="pistatus">
+          <div class="status_uptime"></div>
+          <div class="status_temp"></div>
+          <div class="status_drives"></div>
+          <div class="status_space"></div>
+          <div class="status_snapshots"></div>
+          <div class="status_ether">
+            <span>Ethernet:
+              <span class="status_ether_info">&ZeroWidthSpace;</span>
+            </span>
+          </div>
+          <div class="status_wifi">
+            <span>Wifi:
+              <span class="status_wifi_info">&ZeroWidthSpace;</span>
+            </span>
+            <span class="wifi-icon-span" title="">
+              <svg width="20" height="18" viewBox="0 5 110 95">
+                <g class="wifi-icon" strength="a">
+                  <circle class="wifi-none" cx="56" cy="77" r="5" stroke="blue" stroke-width="1" fill="black" />
+                  <path class="wifi-low" fill="none" stroke-width="10" stroke="lightgrey"
+                        stroke-linecap="round" d="m 76 63 c -11 -11 -29 -11 -40 0"/>
+                  <path class="wifi-medium" fill="none" stroke-width="10" stroke="lightgrey"
+                        stroke-linecap="round" d="m 93 48 c -20 -20 -53 -20 -73 0"/>
+                  <path class="wifi-high" fill="none" stroke-width="10" stroke="lightgrey"
+                        stroke-linecap="round" d="m 109 32 c -29 -29 -76 -29 -105 0"/>
                 </g>
               </svg>
             </span>
-          </span>
+          </div>
+          <div class="status_modem" style="display: flex; flex-direction: column;">
+            <span style="display: flex;">Modem: 
+              <span class="status_modem_info"></span>
+              <span class="modem_icon_span" style="margin-left: 5px;">
+                <svg width="20" height="18" viewBox="0 0 110 95">
+                  <g class="modem_icon" strength="a">
+                    <rect class="cell-bar-1" x="10" y="60" width="10" height="25" rx="3" fill="#bbb"/>
+                    <rect class="cell-bar-2" x="25" y="50" width="10" height="35" rx="3" fill="#bbb"/>
+                    <rect class="cell-bar-3" x="40" y="40" width="10" height="45" rx="3" fill="#bbb"/>
+                    <rect class="cell-bar-4" x="55" y="30" width="10" height="55" rx="3" fill="#bbb"/>
+                    <rect class="cell-bar-5" x="70" y="20" width="10" height="65" rx="3" fill="#bbb"/>
+                  </g>
+                </svg>
+              </span>
+            </span>
 
-          <span>
-            <div class="status_modem_details" style="display: none;"></div>
-          </span>
+            <span>
+              <div class="status_modem_details" style="display: none;"></div>
+            </span>
+          </div>
+          
         </div>
-        
+        <!-- SMS Table -->
+        <div id="sms-table-container" style="max-height: 220px; overflow-y: auto; margin-top: 10px; display: none;">
+          <table id="sms-table" style="width:100%; border-collapse: collapse; table-layout: fixed;">
+            <colgroup>
+              <col style="width:8%;">
+              <col style="width:8%;">
+              <col style="width:18%;">
+              <col style="width:40%;">
+              <col style="width:18%;">
+              <col style="width:8%;">
+            </colgroup>
+            <thead style="position: sticky; top: 0; background: #f0f0f0;">
+              <tr>
+                <th style="border: 1px solid #ccc; padding: 4px;">Modem</th>
+                <th style="border: 1px solid #ccc; padding: 4px;">SMS</th>
+                <th style="border: 1px solid #ccc; padding: 4px;">Number</th>
+                <th style="border: 1px solid #ccc; padding: 4px;">Text</th>
+                <th style="border: 1px solid #ccc; padding: 4px;">Timestamp</th>
+                <th style="border: 1px solid #ccc; padding: 4px;">Delete</th>
+              </tr>
+            </thead>
+            <tbody id="sms-table-body">
+            </tbody>
+          </table>
+        </div>
       </div>
       <button class="group2" id="toggledrives" onclick="toggledrivesfunc();">...</button>
       <p>
@@ -1169,7 +1196,7 @@ function download(filename, text) {
 }
 
 function cachebustingurl(url) {
-  return url + '?' + Math.random();
+  return url + (url.includes('?') ? '&' : '?') + Math.random();
 }
 
 function isElementVisible(elem) {
@@ -1728,92 +1755,89 @@ function showstatus() {
       }
       wifiinfospan.innerText = wifiinfo;
       
-      // Add modem status information
-      var modemdiv = document.querySelector(".status_modem");
-      readfile({url:'cgi-bin/getModemInfo.sh', callback:function(modemData) {
-        try {
-          var modemInfo = JSON.parse(modemData);
-          var modemInfoSpan = document.querySelector(".status_modem_info");
-          var modemDetails = document.querySelector(".status_modem_details");
-          var modemIcon = document.querySelector(".modem_icon");
+    }});
+
+    var modemInfoSpan = document.querySelector(".status_modem_info");
+    var modemDetails = document.querySelector(".status_modem_details");
+    var modemIcon = document.querySelector(".modem_icon");
+    var modemIconSpan = document.querySelector(".modem_icon_span");
+    var modemdiv = document.querySelector(".status_modem");
+    readfile({url:'cgi-bin/getModemInfo.sh', callback:function(modemData) {
+      try {
+        var modemInfo = JSON.parse(modemData);
+        
+        if (modemInfo.power_state === "On") {
+          // Create a detailed modem status display
+          modemDetails.style.marginLeft = "20px";
           
-          if (modemInfo.power_state === "On") {
-            // Create a detailed modem status display
-            modemDetails.style.marginLeft = "20px";
-            
-            // Main connection status
-            var connectionStatus = "";
-            if (modemInfo.regstate === "Home") {
-              connectionStatus = "Registered (Home)";
-              if (modemInfo.packet_service_state === "Attached") {
-                connectionStatus += ", Connected";
-              } else {
-                connectionStatus += ", Not connected";
-              }
+          // Main connection status
+          var connectionStatus = "";
+          if (modemInfo.regstate === "Home") {
+            connectionStatus = "Registered (Home)";
+            if (modemInfo.packet_service_state === "Attached") {
+              connectionStatus += ", Connected";
             } else {
-              connectionStatus = "Not registered";
+              connectionStatus += ", Not connected";
             }
-            
-            modemInfoSpan.innerText = connectionStatus;
-            
-            // Create a list of all modem details
-            var detailsHTML = "";
-            detailsHTML += "<div>IMEI: " + modemInfo.imei + "</div>";
-            detailsHTML += "<div>ICC: " + modemInfo.icc + "</div>";
-            detailsHTML += "<div>IMSI: " + modemInfo.imsi + "</div>";
-            detailsHTML += "<div>Operator ID: " + modemInfo.operatorid + "</div>";
-            detailsHTML += "<div>Phone number: " + modemInfo.phone_number + "</div>";
-            detailsHTML += "<div>Power state: " + modemInfo.power_state + "</div>";
-            detailsHTML += "<div>Cell ID: " + modemInfo.cell_id + "</div>";
-            detailsHTML += "<div>LAC: " + modemInfo.lac + "</div>";
-            detailsHTML += "<div>TAC: " + modemInfo.tac + "</div>";
-            detailsHTML += "<div>State: " + modemInfo.state + "</div>";
-            detailsHTML += "<div>Registration state: " + modemInfo.regstate + "</div>";
-            detailsHTML += "<div>Packet service state: " + modemInfo.packet_service_state + "</div>";
-            detailsHTML += "<div>Signal quality: " + modemInfo.signal_quality + "</div>";
-            detailsHTML += "<div>Signal quality recent: " + modemInfo.signal_quality_recent + "</div>";
-            detailsHTML += "<div>SMS count: " + modemInfo.sms_count + "</div>";
-            detailsHTML += "<div>RSSI: " + modemInfo.rssi + " dBm</div>";
-            
-            modemDetails.innerHTML = detailsHTML;
-            modemDetails.style.display = "inherit";
-
-            var signal = parseInt(modemInfo.signal_quality);
-            if (isNaN(signal)) signal = 0;
-            signal = Math.max(0, Math.min(100, signal));
-            signal = signal / 20;
-
-            // Remove old "active" coloring
-            for (var i = 1; i <= 5; i++) {
-              var bar = modemIcon.querySelector(".cell-bar-" + i);
-              bar.setAttribute("fill", "#bbb");
-            }
-            // Color the bars to indicate strength (from left to right)
-            for (var i = 1; i <= signal; i++) {
-              var bar = modemIcon.querySelector(".cell-bar-" + i);
-              bar.setAttribute("fill", "#28c940");
-            }
-            // Tooltip for the icon
-            var modemIconSpan = document.querySelector(".modem_icon_span");
-            modemIconSpan.setAttribute("title", "Cellular signal: " + modemInfo.signal_quality);
-
           } else {
-            modemInfoSpan.innerText = "Not connected";
-            modemDetails.style.display = "none";
-            modemIconSpan.setAttribute("title", "Not connected");
-            for (var i = 1; i <= 5; i++) {
-              var bar = modemIcon.querySelector(".cell-bar-" + i);
-              bar.setAttribute("fill", "#bbb");
-            }
+            connectionStatus = "Not registered";
           }
-
           
-        } catch (e) {
-          var modemInfoSpan = document.querySelector(".status_modem_info");
-          modemInfoSpan.innerText = "Error reading modem info: " + e.message;
+          modemInfoSpan.innerText = connectionStatus;
+          
+          // Create a list of all modem details
+          var detailsHTML = "";
+          detailsHTML += "<div>IMEI: " + modemInfo.imei + "</div>";
+          detailsHTML += "<div>ICC: " + modemInfo.icc + "</div>";
+          detailsHTML += "<div>IMSI: " + modemInfo.imsi + "</div>";
+          detailsHTML += "<div>Operator ID: " + modemInfo.operatorid + "</div>";
+          detailsHTML += "<div>Phone number: " + modemInfo.phone_number + "</div>";
+          detailsHTML += "<div>Power state: " + modemInfo.power_state + "</div>";
+          detailsHTML += "<div>Cell ID: " + modemInfo.cell_id + "</div>";
+          detailsHTML += "<div>LAC: " + modemInfo.lac + "</div>";
+          detailsHTML += "<div>TAC: " + modemInfo.tac + "</div>";
+          detailsHTML += "<div>State: " + modemInfo.state + "</div>";
+          detailsHTML += "<div>Registration state: " + modemInfo.regstate + "</div>";
+          detailsHTML += "<div>Packet service state: " + modemInfo.packet_service_state + "</div>";
+          detailsHTML += "<div>Signal quality: " + modemInfo.signal_quality + "</div>";
+          detailsHTML += "<div>Signal quality recent: " + modemInfo.signal_quality_recent + "</div>";
+          detailsHTML += "<div>SMS count: " + modemInfo.sms_count + "</div>";
+          detailsHTML += "<div>RSSI: " + modemInfo.rssi + " dBm</div>";
+          
+          modemDetails.innerHTML = detailsHTML;
+          modemDetails.style.display = "inherit";
+
+          var signal = parseInt(modemInfo.signal_quality);
+          if (isNaN(signal)) signal = 0;
+          signal = Math.max(0, Math.min(100, signal));
+          signal = signal / 20;
+
+          // Remove old "active" coloring
+          for (var i = 1; i <= 5; i++) {
+            var bar = modemIcon.querySelector(".cell-bar-" + i);
+            bar.setAttribute("fill", "#bbb");
+          }
+          // Color the bars to indicate strength (from left to right)
+          for (var i = 1; i <= signal; i++) {
+            var bar = modemIcon.querySelector(".cell-bar-" + i);
+            bar.setAttribute("fill", "#28c940");
+          }
+          // Tooltip for the icon
+          modemIconSpan.setAttribute("title", "Cellular signal: " + modemInfo.signal_quality);
+
+        } else {
+          modemInfoSpan.innerText = "Not connected";
           modemDetails.style.display = "none";
+          modemIconSpan.setAttribute("title", "Not connected");
+          for (var i = 1; i <= 5; i++) {
+            var bar = modemIcon.querySelector(".cell-bar-" + i);
+            bar.setAttribute("fill", "#bbb");
+          }
         }
-      }});
+      } catch (e) {
+        modemInfoSpan.innerText = "Error reading modem info: " + e.message;
+        modemDetails.style.display = "none";
+      }
     }});
   }
   setTimeout(updateuptimeonly, 1000);
@@ -1872,6 +1896,7 @@ function initialize() {
   readfile({pre:'archivelooppre', url:'archiveloop.log', tail:true, button:'aldwnbtn'});
   readfile({pre:'setuplogpre', url:'teslausb-headless-setup.log', tail:true, button:'sudwnbtn'});
   showstatus();
+  fetchAndDisplaySms();
   refreshdiagnostics();
 
   var settingsbtn = document.querySelector('.settingsbutton');
@@ -1956,6 +1981,74 @@ function videoError(elem) {
      return "unknown";
   }
   return elem.error.message;
+}
+
+// --- SMS Table Logic ---
+function fetchAndDisplaySms() {
+  var container = document.getElementById('sms-table-container');
+  var tbody = document.getElementById('sms-table-body');
+  readfile({url: 'cgi-bin/listSms.sh', callback: function(value) {
+    tbody.innerHTML = '';
+    try {
+      var data = JSON.parse(value);
+      var found = false;
+      if (data.modems && data.modems.length > 0) {
+        data.modems.forEach(function(modem) {
+          if (modem.sms && modem.sms.length > 0) {
+            found = true;
+            modem.sms.forEach(function(msg) {
+              var details = msg.details;
+              var content = details.content || {};
+              var text = (content.text || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+              var number = content.number || '';
+              var ts = details.properties && details.properties.timestamp ? details.properties.timestamp : '';
+              var sms_index = msg.sms_index;
+              var modem_index = modem.modem_index;
+              var tr = document.createElement('tr');
+              tr.innerHTML =
+                '<td style="border:1px solid #ccc; padding:4px;">' + modem_index + '</td>' +
+                '<td style="border:1px solid #ccc; padding:4px;">' + sms_index + '</td>' +
+                '<td style="border:1px solid #ccc; padding:4px;">' + number + '</td>' +
+                '<td style="border:1px solid #ccc; padding:4px; word-break:break-word; max-width:300px;">' + text + '</td>' +
+                '<td style="border:1px solid #ccc; padding:4px;">' + ts + '</td>' +
+                '<td style="border:1px solid #ccc; padding:4px; text-align:center;">' +
+                  '<button class="sms-delete-btn" data-modem="' + modem_index + '" data-sms="' + sms_index + '">Delete</button>' +
+                '</td>';
+              tbody.appendChild(tr);
+            });
+          }
+        });
+      }
+      container.style.display = found ? 'block' : 'none';
+      if (found) attachSmsDeleteHandlers();
+    } catch (e) {
+      container.style.display = 'none';
+      console.error('Error parsing SMS data:', e);
+    }
+  }});
+}
+
+function attachSmsDeleteHandlers() {
+  var btns = document.querySelectorAll('.sms-delete-btn');
+  btns.forEach(function(btn) {
+    btn.onclick = function() {
+      var modemIdx = btn.getAttribute('data-modem');
+      var smsIdx = btn.getAttribute('data-sms');
+      if (modemIdx && smsIdx) {
+        if (confirm(`Delete this SMS ${smsIdx} from modem ${modemIdx}?`)) {
+          var url = 'cgi-bin/deleteSms.sh?modem=' + encodeURIComponent(modemIdx) + '&sms=' + encodeURIComponent(smsIdx);
+          readfile({url: url, callback: function(value) {
+            var data = JSON.parse(value);
+            if (data.success) {
+              fetchAndDisplaySms();
+            } else {
+              alert('Failed to delete SMS: ' + data.error);
+            }
+          }});
+        }
+      }
+    }
+  });
 }
 
 /* a collection of videos that share the same timestamp */
