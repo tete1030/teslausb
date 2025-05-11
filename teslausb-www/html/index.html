@@ -847,6 +847,27 @@ video {
             </svg>
           </span>
         </div>
+        <div class="status_modem" style="display: flex; flex-direction: column;">
+          <span style="display: flex;">Modem: 
+            <span class="status_modem_info"></span>
+            <span class="modem_icon_span" style="margin-left: 5px;">
+              <svg width="20" height="18" viewBox="0 0 110 95">
+                <g class="modem_icon" strength="a">
+                  <rect class="cell-bar-1" x="10" y="60" width="10" height="25" rx="3" fill="#bbb"/>
+                  <rect class="cell-bar-2" x="25" y="50" width="10" height="35" rx="3" fill="#bbb"/>
+                  <rect class="cell-bar-3" x="40" y="40" width="10" height="45" rx="3" fill="#bbb"/>
+                  <rect class="cell-bar-4" x="55" y="30" width="10" height="55" rx="3" fill="#bbb"/>
+                  <rect class="cell-bar-5" x="70" y="20" width="10" height="65" rx="3" fill="#bbb"/>
+                </g>
+              </svg>
+            </span>
+          </span>
+
+          <span>
+            <div class="status_modem_details" style="display: none;"></div>
+          </span>
+        </div>
+        
       </div>
       <button class="group2" id="toggledrives" onclick="toggledrivesfunc();">...</button>
       <p>
@@ -1706,6 +1727,93 @@ function showstatus() {
         wifiiconspan.setAttribute("title", "Signal quality: " + (strength * 100).toFixed(0) + "%");
       }
       wifiinfospan.innerText = wifiinfo;
+      
+      // Add modem status information
+      var modemdiv = document.querySelector(".status_modem");
+      readfile({url:'cgi-bin/getModemInfo.sh', callback:function(modemData) {
+        try {
+          var modemInfo = JSON.parse(modemData);
+          var modemInfoSpan = document.querySelector(".status_modem_info");
+          var modemDetails = document.querySelector(".status_modem_details");
+          var modemIcon = document.querySelector(".modem_icon");
+          
+          if (modemInfo.power_state === "On") {
+            // Create a detailed modem status display
+            modemDetails.style.marginLeft = "20px";
+            
+            // Main connection status
+            var connectionStatus = "";
+            if (modemInfo.regstate === "Home") {
+              connectionStatus = "Registered (Home)";
+              if (modemInfo.packet_service_state === "Attached") {
+                connectionStatus += ", Connected";
+              } else {
+                connectionStatus += ", Not connected";
+              }
+            } else {
+              connectionStatus = "Not registered";
+            }
+            
+            modemInfoSpan.innerText = connectionStatus;
+            
+            // Create a list of all modem details
+            var detailsHTML = "";
+            detailsHTML += "<div>IMEI: " + modemInfo.imei + "</div>";
+            detailsHTML += "<div>ICC: " + modemInfo.icc + "</div>";
+            detailsHTML += "<div>IMSI: " + modemInfo.imsi + "</div>";
+            detailsHTML += "<div>Operator ID: " + modemInfo.operatorid + "</div>";
+            detailsHTML += "<div>Phone number: " + modemInfo.phone_number + "</div>";
+            detailsHTML += "<div>Power state: " + modemInfo.power_state + "</div>";
+            detailsHTML += "<div>Cell ID: " + modemInfo.cell_id + "</div>";
+            detailsHTML += "<div>LAC: " + modemInfo.lac + "</div>";
+            detailsHTML += "<div>TAC: " + modemInfo.tac + "</div>";
+            detailsHTML += "<div>State: " + modemInfo.state + "</div>";
+            detailsHTML += "<div>Registration state: " + modemInfo.regstate + "</div>";
+            detailsHTML += "<div>Packet service state: " + modemInfo.packet_service_state + "</div>";
+            detailsHTML += "<div>Signal quality: " + modemInfo.signal_quality + "</div>";
+            detailsHTML += "<div>Signal quality recent: " + modemInfo.signal_quality_recent + "</div>";
+            detailsHTML += "<div>SMS count: " + modemInfo.sms_count + "</div>";
+            detailsHTML += "<div>RSSI: " + modemInfo.rssi + " dBm</div>";
+            
+            modemDetails.innerHTML = detailsHTML;
+            modemDetails.style.display = "inherit";
+
+            var signal = parseInt(modemInfo.signal_quality);
+            if (isNaN(signal)) signal = 0;
+            signal = Math.max(0, Math.min(100, signal));
+            signal = signal / 20;
+
+            // Remove old "active" coloring
+            for (var i = 1; i <= 5; i++) {
+              var bar = modemIcon.querySelector(".cell-bar-" + i);
+              bar.setAttribute("fill", "#bbb");
+            }
+            // Color the bars to indicate strength (from left to right)
+            for (var i = 1; i <= signal; i++) {
+              var bar = modemIcon.querySelector(".cell-bar-" + i);
+              bar.setAttribute("fill", "#28c940");
+            }
+            // Tooltip for the icon
+            var modemIconSpan = document.querySelector(".modem_icon_span");
+            modemIconSpan.setAttribute("title", "Cellular signal: " + modemInfo.signal_quality);
+
+          } else {
+            modemInfoSpan.innerText = "Not connected";
+            modemDetails.style.display = "none";
+            modemIconSpan.setAttribute("title", "Not connected");
+            for (var i = 1; i <= 5; i++) {
+              var bar = modemIcon.querySelector(".cell-bar-" + i);
+              bar.setAttribute("fill", "#bbb");
+            }
+          }
+
+          
+        } catch (e) {
+          var modemInfoSpan = document.querySelector(".status_modem_info");
+          modemInfoSpan.innerText = "Error reading modem info: " + e.message;
+          modemDetails.style.display = "none";
+        }
+      }});
     }});
   }
   setTimeout(updateuptimeonly, 1000);
