@@ -984,6 +984,9 @@ then
   /tmp/configure-modem-manager.sh
 fi
 
+copy_script setup/pi/fix-brcm-obss.sh /tmp
+/tmp/fix-brcm-obss.sh
+
 copy_script setup/pi/configure-gadget-log.sh /tmp
 /tmp/configure-gadget-log.sh
 

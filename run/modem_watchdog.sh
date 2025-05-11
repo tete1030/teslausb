@@ -6,9 +6,9 @@ VENDOR_ID="${VENDOR_ID:-2c7c}"
 PRODUCT_ID="${PRODUCT_ID:-6005}"
 CHECK_INTERVAL="${CHECK_INTERVAL:-30}"
 
-CACHE_DIR="/tmp/usb-watchdog"
+CACHE_DIR="/tmp/modem-watchdog"
 CACHE_FILE="$CACHE_DIR/last_known_path"
-LOG_TAG="usb-watchdog"
+LOG_TAG="modem-watchdog"
 
 find_usb_path() {
     for dev in /sys/bus/usb/devices/*; do
